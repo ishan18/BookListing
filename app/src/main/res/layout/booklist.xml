@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/book_name"
+        android:layout_margin="10dp"
+        android:textSize="25sp"
+        android:fontFamily="serif"
+        android:textColor="#212121"
+        android:text="Book Name"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/publisher"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/book_name"
+        android:textColor="#757575"
+        android:textSize="13sp"
+        android:text="Published by: "/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/publishedOn"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/publisher"
+        android:textColor="#757575"
+        android:textSize="13sp"
+        android:text="Published on: "/>
+
+</RelativeLayout>
