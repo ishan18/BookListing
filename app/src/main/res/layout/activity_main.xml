@@ -6,46 +6,45 @@
     android:background="#EDE7F6"
     tools:context=".MainActivity">
 <RelativeLayout
+    android:id="@+id/search"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/search"
     android:background="@color/colorPrimary">
     <SearchView
+        android:id="@+id/search_bar"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:id="@+id/search_bar"
+        android:layout_margin="10dp"
         android:queryHint="Enter Your Search"
-        android:screenReaderFocusable="true"
-        android:layout_margin="10dp"/>
+        android:screenReaderFocusable="true"/>
 
     <Button
+        android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search"
         android:layout_margin="10dp"
-        android:id="@+id/search_button"
-        android:layout_toRightOf="@id/search_bar"/>
+        android:layout_toRightOf="@id/search_bar"
+        android:text="Search"/>
 </RelativeLayout>
-
     <ProgressBar
+        android:id="@+id/progress_circular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:indeterminateTint="#00897B"
-        android:id="@+id/progress_circular"/>
+        android:indeterminateTint="#00897B"/>
 
     <TextView
+        android:id="@+id/noItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="No Items Found"
-        android:textSize="30sp"
-        android:id="@+id/noItem"/>
+        android:textSize="30sp"/>
 
     <ListView
+        android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list_item"
         android:layout_below="@id/search"/>
 
 </RelativeLayout>

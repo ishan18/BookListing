@@ -6,10 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -17,6 +22,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
@@ -26,7 +32,7 @@ public class MainActivity extends AppCompatActivity{
     StringBuilder BOOKS_URL=new StringBuilder();
     String HOME_URL="https://www.googleapis.com/books/v1/volumes?q=android";
     ListView listView;
-    ArrayList<Books> booksArrayList;
+    ArrayList<Books> booksList;
     BookAdapter bookAdapter;
     AsyncBooks asyncBooks;
     ProgressBar progressBar;
@@ -35,6 +41,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
         searchBar=(SearchView) findViewById(R.id.search_bar);
@@ -44,7 +51,6 @@ public class MainActivity extends AppCompatActivity{
         noItem=(TextView)findViewById(R.id.noItem);
         noItem.setVisibility(View.INVISIBLE);
 
-//        getLoaderManager().initLoader(1,null,this);
         asyncBooks=new AsyncBooks();
         asyncBooks.execute(HOME_URL);
 
@@ -61,7 +67,22 @@ public class MainActivity extends AppCompatActivity{
                 BOOKS_URL.append(searchBar.getQuery());
                 asyncBooks=new AsyncBooks();
                 asyncBooks.execute(BOOKS_URL.toString());
-//                getLoaderManager().initLoader(1,null,MainActivity.this);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(booksList==null)
+                    return;
+                Books books=booksList.get(position);
+                Intent intent=new Intent(MainActivity.this,Book_desc.class);
+                intent.putExtra("Book",books);
+                startActivity(intent);
+
+//                Intent intent=new Intent(Intent.ACTION_VIEW);
+//                intent.setData(Uri.parse(books.getPreviewLink()));
+//                startActivity(intent);
             }
         });
     }
@@ -71,6 +92,7 @@ public class MainActivity extends AppCompatActivity{
         protected void onPostExecute(ArrayList<Books> booksArrayList) {
             super.onPostExecute(booksArrayList);
             progressBar.setVisibility(View.INVISIBLE);
+            booksList=booksArrayList;
             if(booksArrayList.isEmpty()){
                 noItem.setVisibility(View.VISIBLE);
                 return;
@@ -83,25 +105,7 @@ public class MainActivity extends AppCompatActivity{
         protected ArrayList<Books> doInBackground(String... strings) {
             if(strings.length<1 || strings[0]==null)
                     return null;
-            Log.i("Async Called","Asynctask called");
             return QueryUtils.fetchData(strings[0]);
         }
     }
-
-//    @Override
-//    public void onLoaderReset(@NonNull Loader<ArrayList<Books>> loader) {
-//        loader.reset();
-//    }
-//
-//    @Override
-//    public void onLoadFinished(@NonNull Loader<ArrayList<Books>> loader, ArrayList<Books> data) {
-//        bookAdapter=new BookAdapter(MainActivity.this,data);
-//        listView.setAdapter(bookAdapter);
-//    }
-//
-//    @NonNull
-//    @Override
-//    public Loader<ArrayList<Books>> onCreateLoader(int id, @Nullable Bundle args) {
-//        return new BookLoader(MainActivity.this,HOME_URL);
-//    }
 }
